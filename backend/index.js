@@ -75,7 +75,7 @@ app.post('/fetch-url', async (req, res) => {
                         'No Description Found',
             favicon: faviconUrl,
             url: pageUrl,
-            fetchedAt: new Date().toLocaleString()
+            fetchedAt: new Date()
         };
         
         res.json(data);
@@ -85,7 +85,7 @@ app.post('/fetch-url', async (req, res) => {
             error: 'Failed to fetch URL data',
             title: 'Error fetching URL',
             url: req.body.url,
-            fetchedAt: new Date().toLocaleString()
+            fetchedAt: new Date()
         });
     }
 });
