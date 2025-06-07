@@ -13,7 +13,6 @@ const getFavicon = async (pageUrl, $) => {
         const parsedUrl = url.parse(pageUrl);
         const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
         
-        // Try different favicon possibilities
         const faviconSelectors = [
             'link[rel="icon"]',
             'link[rel="shortcut icon"]',
@@ -26,7 +25,6 @@ const getFavicon = async (pageUrl, $) => {
             if (faviconElement.length > 0) {
                 let faviconUrl = faviconElement.attr('href');
                 
-                // If favicon URL is relative, make it absolute
                 if (faviconUrl && !faviconUrl.startsWith('http')) {
                     if (faviconUrl.startsWith('//')) {
                         faviconUrl = 'https:' + faviconUrl;
@@ -40,7 +38,6 @@ const getFavicon = async (pageUrl, $) => {
             }
         }
 
-        // If no favicon found in HTML, try default location
         const defaultFaviconUrl = `${baseUrl}/favicon.ico`;
         const response = await axios.get(defaultFaviconUrl);
         if (response.status === 200) {
@@ -61,7 +58,6 @@ app.post('/fetch-url', async (req, res) => {
             return res.status(400).json({ 
                 error: 'URL is required',
                 title: 'Error',
-                description: 'URL is required',
                 url: '',
                 fetchedAt: new Date().toLocaleString()
             });
@@ -70,7 +66,6 @@ app.post('/fetch-url', async (req, res) => {
         const response = await axios.get(pageUrl);
         const $ = cheerio.load(response.data);
         
-        // Get favicon
         const faviconUrl = await getFavicon(pageUrl, $);
 
         const data = {
@@ -89,7 +84,6 @@ app.post('/fetch-url', async (req, res) => {
         res.status(500).json({ 
             error: 'Failed to fetch URL data',
             title: 'Error fetching URL',
-            description: 'Could not fetch URL data',
             url: req.body.url,
             fetchedAt: new Date().toLocaleString()
         });

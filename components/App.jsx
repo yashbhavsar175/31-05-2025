@@ -98,7 +98,6 @@ function App() {
                                 </div>
                                 <div className='ml-6 flex-1'>
                                     <h3 className='text-xl font-semibold'>{item.title}</h3>
-                                    <p className='text-gray-600 mt-1'>{item.description}</p>
                                     <a 
                                         href={item.url} 
                                         target="_blank" 
