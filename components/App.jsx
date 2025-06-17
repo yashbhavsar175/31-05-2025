@@ -14,6 +14,7 @@ function App() {
             return;
         }
 
+         
         try {
             setLoading(true);
             const response = await fetch('http://localhost:5000/fetch-url', {
@@ -24,16 +25,18 @@ function App() {
                 body: JSON.stringify({ url: inputUrl })
             });
 
+            if (response.status === 429) {
+            alert('Please try again after a few second');
+            return;
+        }
+     
+
             const data = await response.json();
             setUrlList([data, ...urlList]);
             setInputUrl("");
 
         } catch (err) {
-            if (response.status == 429) {
-                alert('Rate limit exceeded. Please try again later.',err);
-            } else {
                 alert('An error occurred while fetching the URL. Please try again.',err);
-            }
         } finally {
             setLoading(false);
         }
@@ -52,7 +55,7 @@ function App() {
                         value={inputUrl}
                         onChange={(e) => setInputUrl(e.target.value)}
                     />
-                    <button 
+                    <button id='btn'
                         type="submit" 
                         className={`flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={loading}
@@ -60,7 +63,7 @@ function App() {
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512" className="mr-2">
                             <path fill="#ffffff" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
                         </svg>
-                        {loading ? 'Loading...' : 'Preview'}
+                        {loading ? 'Please Wait...' : 'Preview'}
                     </button>
                 </form>
 
