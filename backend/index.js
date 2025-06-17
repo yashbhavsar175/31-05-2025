@@ -117,11 +117,6 @@ app.post('/fetch-url', async (req, res) => {
     }
 });
 
-if(data.url===pageUrl){
-            alert('Link is already fetch, please enter another link')
-            return;
-        }
-
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
